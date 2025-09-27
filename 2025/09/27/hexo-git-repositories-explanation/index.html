@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Hexo博客中的两个Git仓库解析 - 浅斟低唱</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="浅斟低唱"><meta name="msapplication-TileImage" content="/img/favicon2.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="浅斟低唱"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="详细解释Hexo博客项目中为什么会有两个Git仓库，它们分别的作用和工作流程"><meta property="og:type" content="blog"><meta property="og:title" content="浅斟低唱"><meta property="og:url" content="https://removeif.github.io/"><meta property="og:site_name" content="浅斟低唱"><meta property="og:description" content="详细解释Hexo博客项目中为什么会有两个Git仓库，它们分别的作用和工作流程"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://removeif.github.io/img/zych.jpg"><meta property="article:published_time" content="2025-09-27T08:30:00.000Z"><meta property="article:modified_time" content="2025-09-27T08:41:55.494Z"><meta property="article:author" content="昨夜此花"><meta property="article:tag" content="Hexo"><meta property="article:tag" content="Git"><meta property="article:tag" content="博客部署"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://removeif.github.io/img/zych.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/09/27/hexo-git-repositories-explanation/"},"headline":"浅斟低唱","image":["http://example.com/img/og_image.png"],"datePublished":"2025-09-27T08:30:00.000Z","dateModified":"2025-09-27T08:41:55.494Z","author":{"@type":"Person","name":"昨夜此花"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject"}},"description":"详细解释Hexo博客项目中为什么会有两个Git仓库，它们分别的作用和工作流程"}</script><link rel="canonical" href="http://example.com/2025/09/27/hexo-git-repositories-explanation/"><link rel="icon" href="/img/favicon2.svg"><meta name="referrer" content="no-referrer-when-downgrade"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css"><link rel="stylesheet" href="https://fonts.loli.net/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/5.12.0/css/all.min.css"><link rel="stylesheet" href="https://fonts.loli.net/css?family=Ubuntu:400,600|Source+Code+Pro|Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext|Inconsolata|Itim|Lobster.css"><script src="https://cdnjs.loli.net/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="/js/globalUtils.js"></script><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/lightgallery/1.10.0/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.8.1/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdnjs.loli.net/ajax/libs/pace/1.2.4/pace.min.js"></script><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo1.png" alt="浅斟低唱" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a><a class="navbar-item" href="/friend">友链</a><a class="navbar-item" href="/self-talking">碎碎念</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/removeif/hexo-theme-amazing"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-9-widescreen"><!--!--><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><i class="far fa-calendar-plus"> </i>2025-09-27  <a class="commentCountImg" href="/2025/09/27/hexo-git-repositories-explanation/#comment-container"><span class="display-none-class">/2025/09/27/hexo-git-repositories-explanation/</span><i class="far fa-comment-dots"></i> <span class="commentCount" id="35fa6b96dafc139ec141836c50942879">99+</span>  </a><span class="level-item"><i class="far fa-clock"> </i>8 分钟  <i class="fas fa-pencil-alt"> </i>1.2 k</span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">Hexo博客中的两个Git仓库解析</h1><div class="content"><h1 id="Hexo博客中的两个Git仓库解析"><a href="#Hexo博客中的两个Git仓库解析" class="headerlink" title="Hexo博客中的两个Git仓库解析"></a>Hexo博客中的两个Git仓库解析</h1><p>在使用Hexo搭建博客并部署到GitHub Pages的过程中，你可能会注意到项目根目录下有两个Git相关的文件夹：<code>.git/</code> 和 <code>.deploy_git/</code>。本文将详细解释这两个仓库的作用和区别。</p>
+<h2 id="📁-两个Git仓库的作用"><a href="#📁-两个Git仓库的作用" class="headerlink" title="📁 两个Git仓库的作用"></a>📁 两个Git仓库的作用</h2><h3 id="1-git-源码仓库"><a href="#1-git-源码仓库" class="headerlink" title="1. .git/ - 源码仓库"></a>1. <strong><code>.git/</code> - 源码仓库</strong></h3><p>这是您的<strong>博客源码</strong>仓库，包含：</p>
+<ul>
+<li>原始的Markdown文章文件</li>
+<li>主题配置文件  </li>
+<li>博客的配置文件（<code>_config.yml</code>）</li>
+<li>主题源码</li>
+<li>所有开发相关的文件</li>
+</ul>
+<p><strong>远程仓库地址</strong>: <code>https://github.com/zuoyecihua2023/ceshi.git</code></p>
+<h3 id="2-deploy-git-部署仓库"><a href="#2-deploy-git-部署仓库" class="headerlink" title="2. .deploy_git/ - 部署仓库"></a>2. <strong><code>.deploy_git/</code> - 部署仓库</strong></h3><p>这是Hexo自动创建的<strong>部署专用</strong>仓库，包含：</p>
+<ul>
+<li>生成的静态网站文件（HTML、CSS、JS）</li>
+<li>已编译的主题样式</li>
+<li>优化后的图片和资源文件</li>
+</ul>
+<p><strong>远程仓库地址</strong>: <code>https://github.com/zuoyecihua2023/zuoyecihua2023.github.io.git</code></p>
+<h2 id="🔄-工作流程"><a href="#🔄-工作流程" class="headerlink" title="🔄 工作流程"></a>🔄 工作流程</h2><p>整个工作流程如下：</p>
+<ol>
+<li><strong>开发阶段</strong>: 在源码仓库中编写文章、修改配置</li>
+<li><strong>生成阶段</strong>: 运行 <code>hexo generate</code> 生成静态文件到 <code>public/</code> 目录</li>
+<li><strong>部署阶段</strong>: 运行 <code>hexo deploy</code> 将静态文件推送到部署仓库</li>
+<li><strong>发布阶段</strong>: GitHub Pages 自动从部署仓库构建网站</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">    A[源码仓库 ceshi.git] --&gt; B[hexo generate]</span><br><span class="line">    B --&gt; C[生成静态文件]</span><br><span class="line">    C --&gt; D[.deploy_git/ 目录]</span><br><span class="line">    D --&gt; E[hexo deploy]</span><br><span class="line">    E --&gt; F[推送到 zuoyecihua2023.github.io.git]</span><br><span class="line">    F --&gt; G[GitHub Pages 网站]</span><br></pre></td></tr></table></figure>
+
+<h2 id="💡-为什么要分开？"><a href="#💡-为什么要分开？" class="headerlink" title="💡 为什么要分开？"></a>💡 为什么要分开？</h2><h3 id="1-源码安全"><a href="#1-源码安全" class="headerlink" title="1. 源码安全"></a>1. <strong>源码安全</strong></h3><p>源代码和配置文件保存在 <code>ceshi</code> 仓库中，便于版本控制和协作。即使部署出现问题，源码仍然安全。</p>
+<h3 id="2-部署效率"><a href="#2-部署效率" class="headerlink" title="2. 部署效率"></a>2. <strong>部署效率</strong></h3><p>只推送编译后的静态文件到 GitHub Pages，减少部署时间和仓库大小。</p>
+<h3 id="3-分离关注点"><a href="#3-分离关注点" class="headerlink" title="3. 分离关注点"></a>3. <strong>分离关注点</strong></h3><p>开发和部署分离，更清晰的管理方式：</p>
+<ul>
+<li>源码仓库专注于内容创作和配置管理</li>
+<li>部署仓库专注于网站发布</li>
+</ul>
+<h3 id="4-GitHub-Pages要求"><a href="#4-GitHub-Pages要求" class="headerlink" title="4. GitHub Pages要求"></a>4. <strong>GitHub Pages要求</strong></h3><p>GitHub Pages 通常要求仓库名为 <code>username.github.io</code> 格式，而源码仓库可以使用任意名称。</p>
+<h2 id="🛠-常用命令"><a href="#🛠-常用命令" class="headerlink" title="🛠 常用命令"></a>🛠 常用命令</h2><h3 id="开发和部署命令"><a href="#开发和部署命令" class="headerlink" title="开发和部署命令"></a>开发和部署命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清理生成的文件</span></span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成静态文件</span></span><br><span class="line">hexo generate</span><br><span class="line"><span class="comment"># 或简写</span></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署到GitHub Pages</span></span><br><span class="line">hexo deploy</span><br><span class="line"><span class="comment"># 或简写</span></span><br><span class="line">hexo d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一键部署（推荐）</span></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+
+<h3 id="Git管理命令"><a href="#Git管理命令" class="headerlink" title="Git管理命令"></a>Git管理命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 管理源码（在项目根目录）</span></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;更新博客内容&quot;</span></span><br><span class="line">git push origin main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署仓库由 hexo deploy 自动管理</span></span><br><span class="line"><span class="comment"># 无需手动操作 .deploy_git/ 目录</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="📂-目录结构对比"><a href="#📂-目录结构对比" class="headerlink" title="📂 目录结构对比"></a>📂 目录结构对比</h2><h3 id="源码仓库内容"><a href="#源码仓库内容" class="headerlink" title="源码仓库内容"></a>源码仓库内容</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">my-blog/</span><br><span class="line">├── .git/                    # 源码版本控制</span><br><span class="line">├── source/</span><br><span class="line">│   └── _posts/             # Markdown 文章</span><br><span class="line">├── themes/                 # 主题文件</span><br><span class="line">├── _config.yml             # 博客配置</span><br><span class="line">├── _config.amazing.yml     # 主题配置</span><br><span class="line">└── package.json            # 依赖管理</span><br></pre></td></tr></table></figure>
+
+<h3 id="部署仓库内容"><a href="#部署仓库内容" class="headerlink" title="部署仓库内容"></a>部署仓库内容</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.deploy_git/</span><br><span class="line">├── .git/                   # 部署版本控制</span><br><span class="line">├── index.html              # 首页</span><br><span class="line">├── archives/               # 归档页面</span><br><span class="line">├── css/                    # 样式文件</span><br><span class="line">├── js/                     # 脚本文件</span><br><span class="line">├── img/                    # 图片资源</span><br><span class="line">└── 2025/09/27/             # 按日期组织的文章页面</span><br></pre></td></tr></table></figure>
+
+<h2 id="⚠-注意事项"><a href="#⚠-注意事项" class="headerlink" title="⚠ 注意事项"></a>⚠ 注意事项</h2><ol>
+<li><p><strong>不要手动修改 <code>.deploy_git/</code> 目录</strong></p>
+<ul>
+<li>该目录由 Hexo 自动管理</li>
+<li>手动修改会在下次部署时被覆盖</li>
+</ul>
+</li>
+<li><p><strong>源码备份很重要</strong></p>
+<ul>
+<li>定期将源码推送到远程仓库</li>
+<li>建议设置自动备份脚本</li>
+</ul>
+</li>
+<li><p><strong>部署前先生成</strong></p>
+<ul>
+<li>确保运行 <code>hexo generate</code> 后再部署</li>
+<li>推荐使用 <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code> 完整流程</li>
+</ul>
+</li>
+<li><p><strong>主题更新后记得部署</strong></p>
+<ul>
+<li>修改主题配置后需要重新生成和部署</li>
+<li>自定义样式修改后也需要重新部署</li>
+</ul>
+</li>
+</ol>
+<h2 id="🎯-最佳实践"><a href="#🎯-最佳实践" class="headerlink" title="🎯 最佳实践"></a>🎯 最佳实践</h2><ol>
+<li><p><strong>版本控制策略</strong></p>
+<ul>
+<li>源码仓库：管理文章、配置、主题修改</li>
+<li>部署仓库：由 Hexo 自动管理，无需人工干预</li>
+</ul>
+</li>
+<li><p><strong>开发流程</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 创建新文章</span></span><br><span class="line">hexo new post <span class="string">&quot;文章标题&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 编写内容</span></span><br><span class="line"><span class="comment"># 编辑 source/_posts/文章标题.md</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 本地预览</span></span><br><span class="line">hexo server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 部署发布</span></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 源码备份</span></span><br><span class="line">git add . &amp;&amp; git commit -m <span class="string">&quot;新增文章&quot;</span> &amp;&amp; git push</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>多设备同步</strong></p>
+<ul>
+<li>在新设备上先克隆源码仓库</li>
+<li>安装依赖：<code>npm install</code></li>
+<li>继续正常的开发流程</li>
+</ul>
+</li>
+</ol>
+<h2 id="🔗-相关链接"><a href="#🔗-相关链接" class="headerlink" title="🔗 相关链接"></a>🔗 相关链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/docs/">Hexo官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://pages.github.com/">GitHub Pages文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/doc">Git版本控制</a></li>
+</ul>
+<hr>
+<p>这种双仓库的设计是Hexo博客的标准做法，确保了源码的安全性和部署的高效性。理解了这个机制，就能更好地管理和维护你的博客项目！✨</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Hexo博客中的两个Git仓库解析</p><p><a href="http://example.com/2025/09/27/hexo-git-repositories-explanation/">http://example.com/2025/09/27/hexo-git-repositories-explanation/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><a href="http://example.com"><p>昨夜此花</p></a></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2025-09-27</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2025-09-27</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a class="icon" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a><a class="icon" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="recommend-area"><div class="recommend-post"><span class="is-size-6 has-text-grey has-mr-7"># 相关文章</span><br><span>  1.<a class="is-size-6" href="/2025/09/24/xx/" target="_blank">测试2</a><br></span><span>  2.<a class="is-size-6" href="/2025/09/23/Hexo%20+%20NexT%20%E5%8D%9A%E5%AE%A2/" target="_blank">测试</a><br></span></div></div><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/css/share.min.css"><div class="social-share"></div><script src="https://cdnjs.loli.net/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2025/09/26/hello-world/"><span class="level-item">Hello World</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><!--!--><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/zuoyecihua2.jpg" alt="昨夜此花"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">昨夜此花</p><p class="is-size-6 is-block">鹏北海，凤朝阳。又携书剑路茫茫。</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>中国 重庆</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives/"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories/"><p class="title">1</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags/"><p class="title">4</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/zuoyecihua2023" target="_blank" rel="noopener">GitHub</a></div><div class="level is-mobile"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Bilibili" href="https://space.bilibili.com/1636509323"><i class="fab fa-bilibili"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="WeChat" href="/img/wechat_qr.png"><i class="fab fa-weixin"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Email" href="mailto:2476518922@qq.com"><i class="fas fa-envelope"></i></a></div><div><hr><p id="hitokoto">:D 一言句子获取中...</p><script type="text/javascript" defer>function getYiyan(){
+                                $.getJSON("https://v1.hitokoto.cn/", function (data) {
+                                if(data){
+                                    $('#hitokoto').html("");
+                                    $('#hitokoto').append("<strong style='color: #3273dc;'>"+data.hitokoto+"</strong>"+
+                                    "<p>"+"来源《"+data.from+"》</p><p>提供者-"+data.creator+"</p>");
+                                }});}
+                                $(function (){getYiyan();$('#hitokoto').click(function(){getYiyan();})});</script></div></div></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-09-27T08:30:00.000Z">2025-09-27</time></p><p class="title"><a href="/2025/09/27/hexo-git-repositories-explanation/">Hexo博客中的两个Git仓库解析</a></p><p class="categories"><a href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-09-26T14:51:49.483Z">2025-09-26</time></p><p class="title"><a href="/2025/09/26/hello-world/">Hello World</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-09-24T10:00:00.000Z">2025-09-24</time></p><p class="title"><a href="/2025/09/24/xx/">测试2</a></p><p class="categories"><a href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2025-09-23T08:00:00.000Z">2025-09-23</time></p><p class="title"><a href="/2025/09/23/Hexo%20+%20NexT%20%E5%8D%9A%E5%AE%A2/">测试</a></p><p class="categories"><a href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">学习</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2025/09/"><span class="level-start"><span class="level-item">九月 2025</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E7%AC%94/"><span class="tag">随笔</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Git/"><span class="tag">Git</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Hexo/"><span class="tag">Hexo</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2/"><span class="tag">博客部署</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">订阅更新</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="订阅"></div></div></form></div></div></div><!--!--><div class="column-right-shadow is-hidden-widescreen"></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo1.png" alt="浅斟低唱" height="28"></a><p class="size-small"><span>&copy; 2025 昨夜此花</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a> &amp; <a href="https://github.com/removeif/hexo-theme-amazing" target="_blank">Amazing</a> <br><span>© 版权说明：[本网站所有内容均收集于互联网或自己创作，方便于网友与自己学习交流，如有侵权，请<a href='mailto:2476518922@qq.com'>留言</a>，立即处理]<br></span><span><span id="statistic-times">loading...</span><script>function createTime(time) {
+            var n = new Date(time);
+            now.setTime(now.getTime() + 250),
+                days = (now - n) / 1e3 / 60 / 60 / 24,
+                dnum = Math.floor(days),
+                hours = (now - n) / 1e3 / 60 / 60 - 24 * dnum,
+                hnum = Math.floor(hours),
+            1 == String(hnum).length && (hnum = "0" + hnum),
+                minutes = (now - n) / 1e3 / 60 - 1440 * dnum - 60 * hnum,
+                mnum = Math.floor(minutes),
+            1 == String(mnum).length && (mnum = "0" + mnum),
+                seconds = (now - n) / 1e3 - 86400 * dnum - 3600 * hnum - 60 * mnum,
+                snum = Math.round(seconds),
+            1 == String(snum).length && (snum = "0" + snum),
+                document.getElementById("statistic-times").innerHTML = "本站自 <strong>"+time.split(" ")[0].replace(/\//g,".")+"</strong> 已运行 <strong>" + dnum + "</strong> 天 <strong>" + hnum + "</strong> 小时 <strong>" + mnum + "</strong> 分 <strong>" + snum + "</strong> 秒！";
+        }var now = new Date();setInterval("createTime('2025/09/27 14:42:00')", 250,"");</script><br></span><div class="size-small"><span>感谢 <strong><span id="busuanzi_value_site_uv">99+</span></strong> 小伙伴的 <strong><span id="busuanzi_value_site_pv">99+</span></strong> 次光临！</span></div></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/removeif/hexo-theme-amazing"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdnjs.loli.net/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script><script src="https://cdnjs.loli.net/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" async></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdnjs.loli.net/ajax/libs/lightgallery/1.10.0/js/lightgallery.min.js" defer></script><script src="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script><script type="text/javascript">var pjax = new Pjax({
+            elements: "a",//代表点击链接就更新
+            selectors: [  //代表要更新的节点
+                ".section",
+                "title"
+            ],
+            cache: true,
+            cacheBust:false
+        })
+
+        function loadBusuanzi(){
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js", function () {});
+        }
+
+        function loadMathJax() { //加载mathjax
+            $.getScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML", function () {
+                MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\(', '\)']] } });
+                var math = document.getElementsByClassName("entry-content")[0];
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, math]);
+            });
+        };
+
+        // 开始 PJAX 执行的函数
+        document.addEventListener('pjax:send', function () {
+        });
+        
+        // PJAX 完成之后执行的函数，可以和上面的重载放在一起
+        document.addEventListener('pjax:complete', function () {
+            $(".section").css({opacity:1});
+            if(false){
+                $.getScript('/js/comment-issue-data.js',function(){loadIssueData('undefined','undefined','undefined','undefined',undefined);});
+            }
+            if(false){
+                loadMathJax();
+            }
+            loadMainJs(jQuery, window.moment, window.ClipboardJS, window.IcarusThemeSettings);
+            loadBackTop();
+            loadBusuanzi();
+            if(typeof loadBanner == 'function'){
+                loadBanner();
+            }
+        });</script></body></html>
