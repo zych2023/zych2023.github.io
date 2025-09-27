@@ -1,0 +1,16 @@
+.navbar-logo img {
+  content: url("/img/logo1.png");
+  max-height: 4.7rem;
+  transition: all 0.3s ease;
+}
+body.night .navbar-logo img {
+  content: url("/img/logo2.png");
+}
+.footer-logo img {
+  content: url("/img/logo1.png");
+  max-height: 3.6rem;
+  transition: all 0.3s ease;
+}
+body.night .footer-logo img {
+  content: url("/img/logo2.png");
+}
