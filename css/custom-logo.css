@@ -3,54 +3,21 @@
   max-height: 4.7rem;
   transition: all 0.3s ease;
 }
-
 body.night .navbar-logo img {
   content: url("/img/logo2.png");
 }
-
 .footer-logo img {
   content: url("/img/logo1.png");
   max-height: 3.6rem;
   transition: all 0.3s ease;
 }
-
 body.night .footer-logo img {
   content: url("/img/logo2.png");
 }
-
-/* 社交链接样式优化 */
-.widget[data-type="profile"] .field.is-grouped .control {
-  margin-bottom: 0.5rem;
-}
-
-.widget[data-type="profile"] .field.is-grouped .button {
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0;
-  margin: 0 0.25rem;
-  border: 1px solid #dbdbdb;
-  transition: all 0.3s ease;
-}
-
-.widget[data-type="profile"] .field.is-grouped .button:hover {
-  background-color: #3273dc;
-  border-color: #3273dc;
-  color: white;
-  transform: translateY(-2px);
-}
-
-.widget[data-type="profile"] .field.is-grouped .button i {
-  font-size: 1.1rem;
-}
-
-/* 关注按钮居中样式 */
 .widget[data-type="profile"] .has-text-centered .button.is-primary {
-  display: inline-block;
-  min-width: 120px;
-  transition: all 0.3s ease;
-}
-
-.widget[data-type="profile"] .has-text-centered .button.is-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 180px !important;
+  width: 85% !important;
+  max-width: 240px !important;
+  text-align: center !important;
+  display: inline-block !important;
 }
