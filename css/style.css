@@ -11921,6 +11921,28 @@ hr {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   margin-bottom: 2rem;
 }
+.page-index .widget[data-type="profile"] .level:not(.is-mobile) {
+  justify-content: center !important;
+}
+.page-index .widget[data-type="profile"] .level:not(.is-mobile) .level-item {
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+}
+.page-index .widget[data-type="profile"] .level.is-mobile {
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  display: flex !important;
+}
+.page-index .widget[data-type="profile"] .level.is-mobile .level-item {
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  margin-right: 0.75rem !important;
+  margin-bottom: 0 !important;
+  min-width: auto !important;
+}
+.page-index .widget[data-type="profile"] .level.is-mobile .level-item:last-child {
+  margin-right: 0 !important;
+}
 .night {
   color: #c0c0c0 !important;
   background-color: #000;
