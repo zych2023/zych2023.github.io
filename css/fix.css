@@ -1,0 +1,121 @@
+/* ═════════════════════════════════════════════════════════════
+   浅斟低唱 · 样式修复层（fix.css）
+   作用：覆盖主题默认样式，修复已知问题，不改动主题原文件。
+   注意：以后重新运行 hexo generate 会覆盖此层，需重新加上。
+   ═════════════════════════════════════════════════════════════ */
+
+/* ── 1. 隐藏尚未创建的导航页面（关于 / 友链 / 碎碎念） ── */
+.navbar-start a[href="/about"],
+.navbar-start a[href="/friend"],
+.navbar-start a[href="/self-talking"] {
+  display: none !important;
+}
+
+/* ── 2. 首页摘要模式：文章正文只显示开头，底部渐隐 ──
+   仅作用于首页文章卡片（用 .index-category-tag 区分详情页）
+   遮罩用 mask 实现，不依赖背景色，深色模式自动适配 */
+.column-main .card .article:has(.index-category-tag) .content {
+  max-height: 240px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 97%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 97%);
+}
+
+/* ── 3. 视觉统一 ── */
+
+/* 字体：fonts.loli.net 已移除，改用系统字体（加载更快） */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+
+/* ── 4. 页面底色与导航 logo 画布色一致 ──
+   截图验证：logo 是不透明矩形图，画布边缘色 = #FFFFFF / #020200，
+   页面必须与画布同色才能无缝衔接（此前取平均值导致色差） */
+body {
+  background-color: #FFFFFF;
+  transition: background-color 0.3s ease;
+}
+body.night {
+  background-color: #020200;
+}
+.navbar-main,
+.footer {
+  background-color: #FFFFFF;
+}
+body.night .navbar-main,
+body.night .footer {
+  background-color: #020200;
+}
+
+/* 导航滚动高亮态也跟随页面底色（主题夜间默认 #151313，有色差） */
+body.night .navbar-highlight {
+  background-color: #020200 !important;
+}
+
+/* ── 5. logo 显示修复：img 自带 height=28 属性，content 换图后被裁掉一半 ── */
+.navbar-logo img,
+.footer-logo img {
+  height: auto;
+}
+
+/* ── 6. 热力图夜间修复 ──
+   主题夜间给容器涂了 #626161 灰色块，且把 canvas 压暗到 60% 亮度：
+   ① 容器灰块去掉；
+   ② 图表永远用白天配色渲染，夜间用 invert+hue-rotate 滤镜自动变深色，
+      切换模式即时生效（不再有"图表颜色跟不上模式"的问题）； */
+body.night #post-calendar {
+  background-color: transparent !important;
+}
+body.night #post-calendar canvas {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* ── 8. 导航栏变高后（logo 完整显示），给页面顶部留出高度，避免遮挡三栏 ── */
+body.has-navbar-fixed-top {
+  padding-top: 6.5rem;
+}
+
+/* ── 7. logo 不受夜间亮度滤镜影响（否则白色文字被压成深灰看不清） ── */
+body.night .navbar-logo img,
+body.night .footer-logo img {
+  filter: none !important;
+}
+
+/* 卡片：白底页面靠描边+投影区分；夜间为深灰 */
+.card {
+  border-radius: 12px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  box-shadow: 0 1px 3px rgba(17, 24, 39, 0.04), 0 4px 16px rgba(17, 24, 39, 0.05);
+}
+body.night .card {
+  background-color: #151313;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* 文章排版 */
+.article .content {
+  line-height: 1.8;
+}
+.article .content h2 {
+  margin-top: 1.8em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+.article .content h3 {
+  margin-top: 1.4em;
+}
+.article .content blockquote {
+  border-left: 4px solid #3273dc;
+}
+.article .content img {
+  border-radius: 8px;
+}
+.highlight {
+  border-radius: 10px;
+}
+
+body.night .article .content h2 {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
