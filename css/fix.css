@@ -119,3 +119,14 @@ body.night .card {
 body.night .article .content h2 {
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
+
+/* ── 9. 夜间代码块：主题只用 brightness(0.7) 压暗，亮灰背景仍突兀 ──
+   用 invert+hue-rotate 把浅色代码块整体翻成深色（与热力图同思路） */
+body.night figure.highlight {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* ── 10. 夜间头像：主题把图片压暗 40%，头像提回原亮度 ── */
+body.night .avatar {
+  filter: none !important;
+}
