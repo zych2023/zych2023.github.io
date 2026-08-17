@@ -29,7 +29,7 @@
       switchTab();
       window.addEventListener('hashchange', switchTab, false);
   })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo1.png" alt="浅斟低唱" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a><a class="navbar-item" href="/friend">友链</a><a class="navbar-item" href="/self-talking">碎碎念</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/zych2023"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-9-widescreen"><!--!--><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><i class="far fa-calendar-plus"> </i>2025-09-24  <span class="level-item"><i class="far fa-clock"> </i>17 分钟  <i class="fas fa-pencil-alt"> </i>2.5 k</span></div></div><h1 class="title is-3 is-size-4-mobile">测试2</h1><div class="content"><p>以下是针对 <strong>HTML 和 CSS</strong> 的<strong>必备知识清单</strong>，涵盖<strong>学习深度</strong>、<strong>面试重点</strong>和<strong>实际应用场景</strong>，并标注了哪些是<strong>核心必学</strong>，哪些是<strong>进阶加分项</strong>。你可以对照检查自己的掌握情况。</p>
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo1.png" alt="浅斟低唱" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/zych2023"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item" id="night-nav" title="Night Mode" href="javascript:;"><i class="fas fa-moon" id="night-icon"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-9-widescreen"><!--!--><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><i class="far fa-calendar-plus"> </i>2025-09-24  <span class="level-item"><i class="far fa-clock"> </i>17 分钟  <i class="fas fa-pencil-alt"> </i>2.5 k</span></div></div><h1 class="title is-3 is-size-4-mobile">测试2</h1><div class="content"><p>以下是针对 <strong>HTML 和 CSS</strong> 的<strong>必备知识清单</strong>，涵盖<strong>学习深度</strong>、<strong>面试重点</strong>和<strong>实际应用场景</strong>，并标注了哪些是<strong>核心必学</strong>，哪些是<strong>进阶加分项</strong>。你可以对照检查自己的掌握情况。</p>
 <ul>
 <li>详解下，关键知识点可以进行补充与适当拓展</li>
 </ul>
@@ -396,18 +396,6 @@
             cacheBust:false
         })
 
-        function loadBusuanzi(){
-        /* busuanzi 统计已移除 */
-        }
-
-        function loadMathJax() { //加载mathjax
-            $.getScript("//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML", function () {
-                MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\(', '\)']] } });
-                var math = document.getElementsByClassName("entry-content")[0];
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub, math]);
-            });
-        };
-
         // 开始 PJAX 执行的函数
         document.addEventListener('pjax:send', function () {
         });
@@ -417,9 +405,6 @@
             $(".section").css({opacity:1});
             if(false){
                 $.getScript('/js/comment-issue-data.js',function(){loadIssueData('undefined','undefined','undefined','undefined',undefined);});
-            }
-            if(false){
-                loadMathJax();
             }
             loadMainJs(jQuery, window.moment, window.ClipboardJS, window.IcarusThemeSettings);
             loadBackTop();

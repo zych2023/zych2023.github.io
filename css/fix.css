@@ -4,14 +4,7 @@
    注意：以后重新运行 hexo generate 会覆盖此层，需重新加上。
    ═════════════════════════════════════════════════════════════ */
 
-/* ── 1. 隐藏尚未创建的导航页面（关于 / 友链 / 碎碎念） ── */
-.navbar-start a[href="/about"],
-.navbar-start a[href="/friend"],
-.navbar-start a[href="/self-talking"] {
-  display: none !important;
-}
-
-/* ── 2. 首页摘要模式：文章正文只显示开头，底部渐隐 ──
+/* ── 1. 首页摘要模式：文章正文只显示开头，底部渐隐 ──
    仅作用于首页文章卡片（用 .index-category-tag 区分详情页）
    遮罩用 mask 实现，不依赖背景色，深色模式自动适配 */
 .column-main .card .article:has(.index-category-tag) .content {
